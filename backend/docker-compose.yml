@@ -1,0 +1,52 @@
+version: "3"
+services:
+  web:
+    container_name: backend_app
+    build:
+      context: ./
+      dockerfile: Dockerfile-php
+    volumes:
+      - ./src/:/var/www/html
+      - ./config/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "80:80"
+    links:
+      - db
+      - cache
+      - elastic
+    depends_on:
+      - db
+      - cache
+      - elastic
+  db:
+    container_name: db
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ACZ3=8z>`ZBdA;N[
+  cache:
+    container_name: cache
+    image: redis:latest
+    expose:
+      - 6379
+  elastic:
+    container_name: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+volumes:
+  esdata1:
+    driver: local
+  src:
+    driver: local

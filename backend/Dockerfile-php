@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 	libcurl4-openssl-dev \
 	libxml2-dev -y \
 	zlib1g-dev \
-	&& docker-php-ext-install curl mbstring xml pdo soap intl zip
+	&& docker-php-ext-install curl mbstring xml pdo soap intl zip pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 

@@ -25,6 +25,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ACZ3=8z>`ZBdA;N[
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ecommerce_user
+      MYSQL_PASSWORD: userpassword
   cache:
     container_name: cache
     image: redis:latest
@@ -45,6 +48,14 @@ services:
       - esdata1:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    links:
+      - db
 volumes:
   esdata1:
     driver: local

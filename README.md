@@ -1,4 +1,4 @@
-#Inicindo o backend#
+# Iniciando o backend #
 
 Primeiramente, fazemos o build de nossos containers:
 
@@ -13,12 +13,12 @@ Na listagem acima, devemos visualizar os seguintes servicos:
 * cache (redis)
 * elastic (Elasticsearch)
 
-Se houver algum problema no container do Elasticsearch relacionado ao *vp_max_map_count*, ele pode ser corrigido com o codigo abaixo ([referencia:](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)):
+Se houver algum problema no container do Elasticsearch relacionado ao *vp_max_map_count*, ele pode ser corrigido com o código abaixo ([referencia](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)):
 ```
 sysctl -w vp_max_map_count=262144
 ```
 
-Com todos os containers rodando, precisamos realizar as configuracoes iniciais do laravel
+Com todos os containers rodando, precisamos realizar as configuraçẽs iniciais do laravel
 
 Acesse o container:
 ```

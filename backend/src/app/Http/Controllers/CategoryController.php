@@ -23,13 +23,12 @@ class CategoryController extends Controller
     	}
     	return response(Cache::get('categories'));
     }
-    public function getCategory(Request $request)
+    public function getCategory(Category $category)
     {
-    	if (!Cache::has('category:'.$request->id)) {
-    		$category = Category::find($request->id);
+    	if (!Cache::has('category:'.$category->id)) {
     		$minutes = now()->addMinutes(60);
-    		Cache::add('category:'.$request->id, $category, $minutes);
+    		Cache::add('category:'.$category->id, $category, $minutes);
     	}
-    	return response(Cache::get('category:'.$request->id));
+    	return response(Cache::get('category:'.$category->id));
     }
 }

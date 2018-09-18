@@ -13,7 +13,7 @@ class CreateAttributeProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_product', function (Blueprint $table) {
+        Schema::create('attribute_value_product', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('attribute_value_id');
             $table->unsignedInteger('product_id');
@@ -37,6 +37,6 @@ class CreateAttributeProductTable extends Migration
     public function down()
     {   
         Schema::dropIfExists('attribute_item_order');
-        Schema::dropIfExists('attribute_product');
+        Schema::dropIfExists('attribute_value_product');
     }
 }

@@ -35,6 +35,6 @@ class CreateAttributeValuesTable extends Migration
         Schema::table('attribute_value', function(Blueprint $table) {
             $table->dropForeign(['attribute_id']);
         });
-        Schema::dropIfExists('attribute_values');
+        Schema::dropIfExists('attribute_value');
     }
 }

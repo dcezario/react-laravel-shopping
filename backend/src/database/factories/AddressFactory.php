@@ -1,7 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-
+use Faker\Provider\pt_BR\Address;
+use Faker\Provider\pt_BR\PhoneNumber;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -14,13 +15,15 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\Address::class, function (Faker $faker) {
+	$faker->addProvider(new Address($faker));
+	$faker->addProvider(new PhoneNumber($faker));
     return [
-        'phone' => $faker->tollFreePhoneNumber,
+        'phone' => $faker->phone,
         'address' => $faker->address,
         'complement' => '',
         'region'	=> $faker->word,
         'city'  => $faker->city,
-        'state' => $faker->state,
+        'state' => $faker->stateAbbr,
         'zipcode' => $faker->postcode,
     ];
 });

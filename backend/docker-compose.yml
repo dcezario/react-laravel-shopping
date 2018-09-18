@@ -9,7 +9,7 @@ services:
       - ./src/:/var/www/html
       - ./config/php.ini:/usr/local/etc/php/php.ini
     ports:
-      - "80:80"
+      - "8081:8081"
     links:
       - db
       - cache

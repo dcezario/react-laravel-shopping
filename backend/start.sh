@@ -6,9 +6,11 @@ mkdir -p /var/www/html/storage/framework/cache
 mkdir -p /var/www/html/storage/framework/views
 
 chmod 777 /var/www/html/storage -R
+cd /var/www/html/ && composer install
 
-if [ ! -f /var/www/html/.env ]; then
-	cp /var/www/html/.env.example /var/www/html/.env
+if [ ! -f .env ]; then
+	cp .env.example .env
+	php artisan key:generate
 fi;
 
-cd /var/www/html/ && composer install
+php artisan serve --host=0.0.0.0 --port=8081

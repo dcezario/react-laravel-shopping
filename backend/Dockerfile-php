@@ -24,6 +24,6 @@ COPY ./src ./
 COPY ./start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-ENTRYPOINT ["start.sh"]
+EXPOSE 8081
 
-EXPOSE 80
+ENTRYPOINT ["start.sh"]

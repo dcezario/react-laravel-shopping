@@ -19,9 +19,9 @@ Se houver algum problema no container do Elasticsearch relacionado ao *vp_max_ma
 sysctl -w vm.max_map_count=262144
 ```
 
-Com todos os containers rodando, precisamos realizar as configuraçẽs iniciais do laravel
-
-Acesse a aplicação:
+Com todos os containers rodando, precisamos realizar as configuraçẽs iniciais do laravel:
 ```
-http://localhost:8081
+sudo docker exec -it backend_app /bin/bash
+php artisan migrate --seed
+php artisan passport:install
 ```

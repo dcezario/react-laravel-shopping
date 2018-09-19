@@ -10,6 +10,7 @@ cd /var/www/html/ && composer install
 
 if [ ! -f .env ]; then
 	cp .env.example .env
+	source .env
 	php artisan key:generate
 fi;
 

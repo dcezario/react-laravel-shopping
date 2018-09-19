@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dotenv": "^6.0.0",
     "react": "^16.5.1",
+    "react-bulma-components": "2.0.0",
     "react-dom": "^16.5.1",
     "react-scripts": "1.1.5"
   },

@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\CustomerResource;
 
 use App\Customer;
 
 class CustomerController extends Controller
 {
-    public function getCustomer(Request $request) {
-    	$customerId = $request->id;
-    	if (!Cache::has('customer:'.$customerId)) {
-    		$customer = Customer::where('id', $customerId)->with('addresses')->get();
+    public function getCustomer(Customer $customer) {
+    	$customerId = $customer->id;
+    	if (!Cache::has('customerInfo:'.$customerId)) {
+            $customerInfo = new CustomerResource($customer);
     		$minutes = now()->addMinutes(15);
-    		Cache::add('customer:'.$customerId, $customer, $minutes);
+    		Cache::add('customerInfo:'.$customerId, $customerInfo, $minutes);
     	}
-    	return response(Cache::get('customer:'.$customerId));
-    	return response($customer);
+    	return response(Cache::get('customerInfo:'.$customerId));
     }
 }

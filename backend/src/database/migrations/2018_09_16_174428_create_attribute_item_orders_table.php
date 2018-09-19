@@ -19,7 +19,7 @@ class CreateAttributeItemOrdersTable extends Migration
             $table->unsignedInteger('item_id');
             $table->foreign('attribute_product_id')
                 ->references('id')
-                ->on('attribute_product');
+                ->on('attribute_value_product');
             $table->foreign('item_id')
                 ->references('id')
                 ->on('item_order')

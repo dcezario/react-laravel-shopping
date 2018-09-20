@@ -1,30 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from 'react-bulma-components/lib/components/navbar';
 import AppContext from '../ContextProvider';
 import axios from 'axios';
 
-class HeaderBase extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			categories: []
-		}
-	}
-	componentDidMount() {
-		const endpoint = this.props.context.endpoint + '/api/category'
-		let token = this.props.context.authToken;
-		axios.get(endpoint, { headers: { Authorization: 'Bearer ' + token } })
-		.then(function(response) {
-			this.setState({categories: response.data})
-		}.bind(this)).catch(function(err){
-			console.log(err)
-		})
-	}
-	render() {
-		return(
-		<div>
+const Header = () => (
+	<AppContext.Consumer>
 		{
-			this.state.categories &&
+			(context) => (
 				<Navbar>
 					<Navbar.Brand>
 						<Navbar.Item renderAs="a" href="/">
@@ -36,31 +19,22 @@ class HeaderBase extends Component {
 					<Navbar.Menu>
 						<Navbar.Container>
 							{
-								this.state.categories.map((cat, key) => {
-									let url = "product/category/" + cat.id
+								context.categories.map((cat, key) => {
+									let url = "/product/category/" + cat.id
 									return (
-							          <Navbar.Item href={url} key={key}>{cat.name}</Navbar.Item>
+							          <Link to={url} key={key} className="navbar-item">{cat.name}</Link>
 							        )
 								})
 					        }
 					    </Navbar.Container>
 				        <Navbar.Container position="end">
-				          <Navbar.Item href="#">At the end</Navbar.Item>
+				          <Navbar.Item href="#">Login</Navbar.Item>
+				          <Navbar.Item href="#">Carrinho</Navbar.Item>
 				        </Navbar.Container>
 			      	</Navbar.Menu>
 				</Navbar>
+			)
 		}
-		</div>
-		);
-	}
-}
-const Header = () => (
-	<AppContext.Consumer>
-			{
-				(context) => (
-					<HeaderBase context={context} />
-				)
-			}
 	</AppContext.Consumer>
 )
 export default Header;

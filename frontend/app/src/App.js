@@ -1,18 +1,8 @@
-import React, { Component } from 'react';
-import { Columns } from 'react-bulma-components/full';
+import React from 'react';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {isLogged: false, apiToken: false};
-  }
-  render() {
-    return (
+const App = () => (
       <div className="App">
         olar
       </div>
-    );
-  }
-}
-
+)
 export default App;

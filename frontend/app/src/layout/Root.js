@@ -7,16 +7,35 @@ class Root extends Component {
 		super()
 		this.state = {
 			endpoint: 'http://localhost:8081',
+			categories: [],
 			isLogged: false,
 			authToken: null,
+			isLoaded: false
 		}
+		this.getCategories = this.getCategories.bind(this);
+	}
+	getCategories() {
+		return new Promise(function(resolve, reject) {
+			const endpoint = this.state.endpoint + '/api/category'
+			let token = this.state.authToken;
+			let self = this;
+			axios.get(endpoint, { headers: { Authorization: 'Bearer ' + token } })
+			.then(function(response) {
+				self.setState({categories: response.data})
+				resolve(response.data)
+			})
+			.catch(function(err){
+				reject(err)
+			})
+		}.bind(this))		
 	}
 	componentDidMount() {
 		const authUrl = this.state.endpoint + '/oauth/token';
+		let self = this;
 		axios.post(authUrl, {
 				grant_type: 'password',
 				client_id: 2,
-				client_secret: 'wHnapQ2iV1DFBncXhh2spyATilb0v3AZYnHD2PJu',
+				client_secret: 'l70tWBdZ6FUsq3Zm784thOF4TALpt5Q2iEluCugK',
 				username: 'api@test.com',
 				password: 'secret'
 			},{
@@ -25,6 +44,10 @@ class Root extends Component {
 		)
 		.then(function(response) {
 			this.setState({ authToken: response.data.access_token})
+			this.getCategories()
+			.then(function(response) {
+				self.setState({isLoaded: true})
+			})
 		}.bind(this))
 		.catch(function(err) {
 			console.log(err);
@@ -32,13 +55,13 @@ class Root extends Component {
 	}
 	render() {
 		return (
-			<div>
-			{ this.state.authToken &&
+			<Fragment>
+			{ this.state.isLoaded &&
 				<AppContext.Provider value={this.state}>
 					{this.props.children}
 				</AppContext.Provider> 
 			}
-			</div>
+			</Fragment>
 		)
 	}
 }

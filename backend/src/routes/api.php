@@ -22,4 +22,5 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function() {
 });
 Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function() {
 	Route::get('/{product}', 'ProductController@getProduct');
+	Route::get('/category/{category}', 'ProductController@getProductsFromCategory');
 });

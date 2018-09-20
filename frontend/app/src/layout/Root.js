@@ -8,31 +8,37 @@ class Root extends Component {
 		this.state = {
 			endpoint: 'http://localhost:8081',
 			isLogged: false,
-			authToken: false,
+			authToken: null,
 		}
 	}
-	componentWillMount() {
+	componentDidMount() {
 		const authUrl = this.state.endpoint + '/oauth/token';
 		axios.post(authUrl, {
 				grant_type: 'password',
 				client_id: 2,
-				client_secret: 'l70tWBdZ6FUsq3Zm784thOF4TALpt5Q2iEluCugK',
+				client_secret: 'wHnapQ2iV1DFBncXhh2spyATilb0v3AZYnHD2PJu',
 				username: 'api@test.com',
 				password: 'secret'
 			},{
 				mode: 'cors'
 			}
-		).then(function(response) {
-			this.setState({authToken: response.data.access_token})
-		}).catch(function(err) {
+		)
+		.then(function(response) {
+			this.setState({ authToken: response.data.access_token})
+		}.bind(this))
+		.catch(function(err) {
 			console.log(err);
 		})
 	}
 	render() {
 		return (
-			<AppContext.Provider value={this.state}>
-				{this.props.children}
-			</AppContext.Provider>
+			<div>
+			{ this.state.authToken &&
+				<AppContext.Provider value={this.state}>
+					{this.props.children}
+				</AppContext.Provider> 
+			}
+			</div>
 		)
 	}
 }

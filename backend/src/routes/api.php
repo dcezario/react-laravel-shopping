@@ -24,3 +24,8 @@ Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function() {
 	Route::get('/{id}', 'ProductController@getProduct')->where('id', '[0-9]+');
 	Route::get('/category/{category}', 'ProductController@getProductsFromCategory');
 });
+Route::group(['prefix' => 'cart', 'middleware' => 'auth:api'], function() {
+	Route::get('/', 'CartController@index');
+	Route::post('/', 'CartController@insertItem');
+	Route::post('/remove/item', 'CartController@removeItem');
+});

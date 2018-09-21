@@ -28,8 +28,8 @@ const Header = () => (
 					        }
 					    </Navbar.Container>
 				        <Navbar.Container position="end">
-				          <Navbar.Item href="#">Login</Navbar.Item>
-				          <Navbar.Item href="#">Carrinho</Navbar.Item>
+				          <Link to="/login" className="navbar-item">Login</Link>
+				          <Link to="/cart" className="navbar-item">Carrinho ({context.totalItems})</Link>
 				        </Navbar.Container>
 			      	</Navbar.Menu>
 				</Navbar>

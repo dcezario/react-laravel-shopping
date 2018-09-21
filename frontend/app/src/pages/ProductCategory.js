@@ -4,6 +4,7 @@ import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
 import AppContext from '../ContextProvider';
 import ProductBox from '../layout/ProductBox';
+import Pagination from 'react-bulma-components/lib/components/pagination';
 import axios from 'axios';
 
 class ProductCategoryBase extends Component {
@@ -11,21 +12,31 @@ class ProductCategoryBase extends Component {
         super(props);
         this.state = {
             products: [],
+            currentPage: 1,
+            nextPage: null,
+            categoryId: null,
             currentCategory: null
         }
         this.getDados = this.getDados.bind(this);
         this.getCurrentCategory = this.getCurrentCategory.bind(this);
+        this.nextPage = this.nextPage.bind(this);
     }
-    getDados(categoryId) {
-        const endpoint = this.props.context.endpoint + '/api/product/category/' + categoryId
+    getDados(categoryId, page = 1) {
+        const endpoint = this.props.context.endpoint + '/api/product/category/' + categoryId +  '?page=' + page
         let token = this.props.context.authToken;
         axios.get(endpoint, { headers: { Authorization: 'Bearer ' + token } })
         .then(function(response) {
-            this.setState({products: response.data});
+            this.setState({products: response.data.data, totalPages: response.data.last_page});
         }.bind(this))
         .catch(function(response) {
             console.log(response);
         })
+    }
+    nextPage(event) {
+        let pageAttribute = event.target.getAttribute('aria-label');
+        let page = pageAttribute.replace(/[^0-9]/g, '')
+        this.setState({currentPage: parseInt(page)})
+        this.getDados(this.state.categoryId, page)
     }
     getCurrentCategory(categoryId) {
         const id = parseInt(categoryId);
@@ -33,10 +44,12 @@ class ProductCategoryBase extends Component {
         this.setState({currentCategory: currentCategory[0].name})
     }
     componentDidMount() {
+        this.setState({categoryId: this.props.categoryId})
         this.getCurrentCategory(this.props.categoryId);
         this.getDados(this.props.categoryId);
     }
     componentWillReceiveProps(nextProps) {
+        this.setState({currentPage: 1, categoryId: nextProps.categoryId})
         this.getCurrentCategory(nextProps.categoryId);
         this.getDados(nextProps.categoryId);
     }
@@ -56,6 +69,11 @@ class ProductCategoryBase extends Component {
                     })
                 }
                 </Columns>
+                { this.state.categoryId &&
+                    <div>
+                        <Pagination showPrevNext={false} current={this.state.currentPage} total={this.state.totalPages} delta={3} onClick={this.nextPage}/>
+                    </div>
+                }
             </Container>
         )
     }

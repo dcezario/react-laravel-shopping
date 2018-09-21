@@ -35,7 +35,7 @@ class Root extends Component {
 		axios.post(authUrl, {
 				grant_type: 'password',
 				client_id: 2,
-				client_secret: 'l70tWBdZ6FUsq3Zm784thOF4TALpt5Q2iEluCugK',
+				client_secret: 'wHnapQ2iV1DFBncXhh2spyATilb0v3AZYnHD2PJu',
 				username: 'api@test.com',
 				password: 'secret'
 			},{

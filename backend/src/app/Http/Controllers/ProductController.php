@@ -12,21 +12,16 @@ use App\Category;
 
 class ProductController extends Controller
 {
-    public function getProduct(Product $product)
+    public function getProduct(Request $request)
     {
-        $product->with('attributes');
+        $product = Product::find($request->id)->with('attributes')->first();
     	return new ProductResource($product);
     }
     public function getProductsFromCategory(Category $category)
     {
-    	if (!Cache::has('category_products:'.$category->id)) {
-
-    		$minutes = now()->addMinutes(5);
-    		$products = Product::whereHas('categories', function($q) use ($category) {
-	    		$q->where('category_id', $category->id);
-	    	})->get();
-    		Cache::add('category_products:'.$category->id, $products, $minutes);
-    	}
-    	return response(Cache::get('category_products:'.$category->id));
+        $products = Product::whereHas('categories', function($q) use ($category) {
+                $q->where('category_id', $category->id);
+            })->paginate(20);
+    	return response($products);
     }
 }

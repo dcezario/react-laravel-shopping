@@ -21,6 +21,6 @@ Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function() {
 	Route::get('/{customer}', 'CustomerController@getCustomer');
 });
 Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function() {
-	Route::get('/{product}', 'ProductController@getProduct');
+	Route::get('/{id}', 'ProductController@getProduct')->where('id', '[0-9]+');
 	Route::get('/category/{category}', 'ProductController@getProductsFromCategory');
 });

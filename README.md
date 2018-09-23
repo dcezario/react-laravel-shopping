@@ -64,9 +64,12 @@ Linha 136
 
 Adminer: 
 ```http://localhost:8282```
+
 Backend:
 ```http://localhost:8081```
+
 Frontend:
 ```http://localhost:3000```
+
 Elasticsearch:
 ```http://localhost:9200```

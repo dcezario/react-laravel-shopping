@@ -2,17 +2,34 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from 'react-bulma-components/lib/components/navbar';
 import AppContext from '../ContextProvider';
+import {
+  Input,
+  Label,
+  Field,
+  Control
+} from 'react-bulma-components/lib/components/form';
+import Downshift from 'downshift'
+
+
 import axios from 'axios';
 
-const Header = () => (
+const Header = () => {
+	const items = [
+	  {value: 'apple'},
+	  {value: 'pear'},
+	  {value: 'orange'},
+	  {value: 'grape'},
+	  {value: 'banana'},
+	]
+	return (
 	<AppContext.Consumer>
 		{
 			(context) => (
 				<Navbar>
 					<Navbar.Brand>
-						<Navbar.Item renderAs="a" href="/">
+						<Link to="/" className="navbar-item">
 				          LOGO
-				        </Navbar.Item>
+				        </Link>
 				        <Navbar.Burger
 				        />
 					</Navbar.Brand>
@@ -26,6 +43,50 @@ const Header = () => (
 							        )
 								})
 					        }
+					    </Navbar.Container>
+					    <Navbar.Container style={{marginTop:'15px'}}>
+					    	 <Downshift
+							    onChange={selection => context.redirect(`/product/${selection.id}`)}
+							    itemToString={item => (item ? item.value : '')}
+							    onInputValueChange={context.search}
+							  >
+							    {({
+							      getInputProps,
+							      getItemProps,
+							      getLabelProps,
+							      getMenuProps,
+							      isOpen,
+							      inputValue,
+							      highlightedIndex,
+							      selectedItem,
+							    }) => (
+							      <div>
+							        <Input {...getInputProps()} placeholder="O que você precisa?" />
+							        <ul {...getMenuProps()}>
+							          {isOpen
+							            ? context.searchResult
+							                .filter(item => !inputValue || item.value.includes(inputValue))
+							                .map((item, index) => (
+							                  <li
+							                    {...getItemProps({
+							                      key: item.id,
+							                      index,
+							                      item,
+							                      style: {
+							                        backgroundColor:
+							                          highlightedIndex === index ? 'lightgray' : 'white',
+							                        fontWeight: selectedItem === item ? 'bold' : 'normal',
+							                      },
+							                    })}
+							                  >
+							                    {item.value}
+							                  </li>
+							                ))
+							            : null}
+							        </ul>
+							      </div>
+							    )}
+							  </Downshift>
 					    </Navbar.Container>
 				        <Navbar.Container position="end">
 				        {
@@ -49,5 +110,6 @@ const Header = () => (
 			)
 		}
 	</AppContext.Consumer>
-)
+	)
+}
 export default Header;

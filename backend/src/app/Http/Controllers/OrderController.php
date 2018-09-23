@@ -15,14 +15,17 @@ class OrderController extends Controller
 {
     public function makeOrder(Request $request)
     {
-    	$customer = Customer::where('access_token', $request->accessToken)->get();
+        if (!$request->customerAccessToken) {
+            return response()->json(['error' => 'token not found'], 400);
+        }
+    	$customer = Customer::where('access_token', $request->customerAccessToken)->get();
     	$cart = Cart::with('items')->where('hash', $request->cartToken)->first();
 
     	if (!$customer || !$cart) {
     		return response()->json(['error' => 'Houve um problema processando sua solicitacao'], 400);
     	}
     	$order = new Order();
-    	$order->customer_id = $customer->id;
+    	$order->customer_id = $customer[0]->id;
     	$order->address_id = $request->addressId;
     	$order->save();
     	foreach ($cart->items as $item) {

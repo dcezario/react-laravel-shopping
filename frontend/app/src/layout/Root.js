@@ -12,6 +12,7 @@ class Root extends Component {
 			categories: [],
 			isLogged: false,
 			totalItems: 0,
+			searchResult: [],
 			addToCart: (product, qty, attribute) => {
 				let cookie = new Cookies();
 				let cartToken = '';
@@ -75,8 +76,29 @@ class Root extends Component {
 					console.log("ERR: ", err);
 				})
 			},
-			placeOrder: () => {
-
+			search: (param) => {
+				console.log(param);
+				if (parseInt(param.length) > 0) {
+					const endpoint = this.state.endpoint + '/api/product/search/'+param
+					console.log(endpoint);
+					let token = this.state.authToken;
+					let self = this;
+					let products = [];
+					axios.get(endpoint, { headers: { Authorization: 'Bearer ' + token } })
+					.then(function(response) {
+						response.data.map((product,idx) => {
+							const item = {
+								value: product.name,
+								id: product.id
+							}
+							products.push(item);
+						})
+						this.setState({searchResult: products})
+					}.bind(this))
+					.catch(function(err){
+						console.log(err)
+					})
+				}
 			},
 			redirect: (path) => {
 				this.props.history.push(path);

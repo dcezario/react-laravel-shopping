@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "dotenv": "^6.0.0",
+    "downshift": "^2.2.2",
     "react": "^16.5.1",
     "react-bulma-components": "2.0.0",
     "react-dom": "^16.5.1",

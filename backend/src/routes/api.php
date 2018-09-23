@@ -29,6 +29,7 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth:api', 'cors']], functi
 Route::group(['prefix' => 'product', 'middleware' => 'auth:api'], function() {
 	Route::get('/{id}', 'ProductController@getProduct')->where('id', '[0-9]+');
 	Route::get('/category/{category}', 'ProductController@getProductsFromCategory');
+	Route::get('/search/{q}', 'ProductController@search');
 });
 Route::group(['middleware' => ['cors', 'auth:api']], function() {
    Route::post('/cart','CartController@insertItem' );

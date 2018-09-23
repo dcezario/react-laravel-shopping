@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function getProduct(Request $request)
     {
-        $product = Product::find($request->id)->with('attributes')->first();
+        $product = Product::where('id', $request->id)->with('attributes')->first();
     	return new ProductResource($product);
     }
     public function getProductsFromCategory(Category $category)

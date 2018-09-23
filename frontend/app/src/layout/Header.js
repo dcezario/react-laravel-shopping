@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from 'react-bulma-components/lib/components/navbar';
 import AppContext from '../ContextProvider';
@@ -28,7 +28,20 @@ const Header = () => (
 					        }
 					    </Navbar.Container>
 				        <Navbar.Container position="end">
-				          <Link to="/login" className="navbar-item">Login</Link>
+				        {
+				        	!context.isLogged &&
+				        	<Fragment>
+				        		<Link to="/login" className="navbar-item">Login</Link>
+				        	</Fragment>
+
+				        }
+				        {
+				        	context.isLogged &&
+				        	<Fragment>
+				        		<Link to="/orders" className="navbar-item">Seus pedidos</Link>
+				        	</Fragment>
+
+				        }
 				          <Link to="/cart" className="navbar-item">Carrinho ({context.totalItems})</Link>
 				        </Navbar.Container>
 			      	</Navbar.Menu>

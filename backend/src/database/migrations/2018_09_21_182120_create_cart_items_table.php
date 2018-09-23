@@ -19,10 +19,12 @@ class CreateCartItemsTable extends Migration
             $table->unsignedInteger('cart_id');
             $table->foreign('cart_id')
                 ->references('id')
-                ->on('carts');
+                ->on('carts')
+                ->onDelete('cascade');
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });

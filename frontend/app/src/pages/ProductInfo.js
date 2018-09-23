@@ -8,9 +8,7 @@ import {
   Field,
   Control,
   Label,
-  Input,
   Select,
-  Help,
 } from 'react-bulma-components/lib/components/form';
 
 import AppContext from '../ContextProvider';
@@ -48,7 +46,6 @@ class ProductInfoBase extends Component {
         this.setState({attribute: event.target.value})
     }
     componentWillMount() {
-        console.log(this.props)
     	const productId = this.props.productId;
     	this.getDados(productId);
     }

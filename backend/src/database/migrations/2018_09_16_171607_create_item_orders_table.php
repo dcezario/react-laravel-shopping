@@ -21,10 +21,12 @@ class CreateItemOrdersTable extends Migration
             $table->decimal('unit_price', 10, 2);
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->onDelete('cascade');
             $table->foreign('order_id')
                 ->references('id')
-                ->on('orders');
+                ->on('orders')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

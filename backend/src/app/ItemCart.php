@@ -12,4 +12,7 @@ class ItemCart extends Model
     {
     	return $this->belongsTo('App\Cart');
     }
+    public function products() {
+    	return $this->belongsTo('App\Product', 'product_id');
+    }
 }

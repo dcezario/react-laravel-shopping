@@ -53,7 +53,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - "8080:8080"
+      - "8282:8080"
     links:
       - db
 volumes:

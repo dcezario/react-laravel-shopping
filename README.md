@@ -1,3 +1,5 @@
+Uma abordagem (ainda em desenvolvimento) de um e-commerce utilizando ReactJs e Laravel no backend.
+
 # Iniciando o backend #
 
 Acesse o diretório do backend.
@@ -70,3 +72,9 @@ Frontend:
 ```http://localhost:3000```
 Elasticsearch:
 ```http://localhost:9200```
+
+**OBS.:** Para pegar os usuários para realizar uma compra, acesse o adminer e pegue um dos clientes na tabela "customers".
+
+Todas as senhas dos clientes são a palavra **"secret"**.
+
+Fiquem a vontade para alterar o código e comentar.

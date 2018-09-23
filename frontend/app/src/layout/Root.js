@@ -103,6 +103,9 @@ class Root extends Component {
 			redirect: (path) => {
 				this.props.history.push(path);
 			},
+			authUser: () => {
+				this.setState({isLogged: true});
+			},
 			authToken: null,
 			isLoaded: false
 		}

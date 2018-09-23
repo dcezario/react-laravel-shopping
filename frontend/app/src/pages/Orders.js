@@ -31,7 +31,7 @@ class OrdersBase extends Component {
 					<tbody>
 						{this.state.orders.map((order, idx) => {
 							return(
-								<tr>
+								<tr key={idx}>
 									<td># {order.id}</td>
 									<td>{order.created_at}</td>
 									<td>{order.item_count}</td>
@@ -59,7 +59,6 @@ class OrdersBase extends Component {
 	        let token = this.props.context.authToken;
 	        axios.get(endpoint, { headers: { Authorization: 'Bearer ' + token } })
 	        .then(function(response) {
-	        	console.log(response.data);
 	            this.setState({orders: response.data.data, isLoaded: true});
 	        }.bind(this))
 	        .catch(function(response) {

@@ -8,7 +8,7 @@ import Box from 'react-bulma-components/lib/components/box';
 import axios from 'axios';
 import ItemResume from '../layout/ItemsResume';
 import Button from 'react-bulma-components/lib/components/button';
-
+import Notification from 'react-bulma-components/lib/components/notification';
 
 import {
   Field,
@@ -25,6 +25,7 @@ class OrderBase extends Component {
             address: '',
             isLoaded: false,
             subtotal: 0,
+            error: false
         }
         this.getCustomer = this.getCustomer.bind(this);
         this.getCartItems = this.getCartItems.bind(this);
@@ -90,28 +91,32 @@ class OrderBase extends Component {
         this.setState({address: address});
     }
     placeOrder() {
-        const endpoint = this.props.context.endpoint + '/api/order';
-        const token = this.props.context.authToken;
-        let cookie = new Cookies();
-        const customerAccessToken = cookie.get('customerAccessToken')
-        const cartToken = cookie.get('cart')['token'];
+        if (!this.state.address) {
+            this.setState({error: true})
+        } else {
+            const endpoint = this.props.context.endpoint + '/api/order';
+            const token = this.props.context.authToken;
+            let cookie = new Cookies();
+            const customerAccessToken = cookie.get('customerAccessToken')
+            const cartToken = cookie.get('cart')['token'];
 
-        const params = new URLSearchParams();
-        params.append('cartToken', cartToken);
-        params.append('customerAccessToken', customerAccessToken);
-        params.append('addressId', this.state.address);
+            const params = new URLSearchParams();
+            params.append('cartToken', cartToken);
+            params.append('customerAccessToken', customerAccessToken);
+            params.append('addressId', this.state.address);
 
-        axios.post(endpoint, params, { headers: { Authorization: 'Bearer ' + token } })
-        .then((response) => {
-            if (response.data.success) {
-                cookie.remove('cart');
-                this.props.context.redirect('/orders');
-            }
-        })
-        .catch((err) => {
-            this.setState({loginError: true});
-            console.log("ERR: ", err);
-        })
+            axios.post(endpoint, params, { headers: { Authorization: 'Bearer ' + token } })
+            .then((response) => {
+                if (response.data.success) {
+                    cookie.remove('cart');
+                    this.props.context.redirect('/orders');
+                }
+            })
+            .catch((err) => {
+                this.setState({loginError: true});
+                console.log("ERR: ", err);
+            })
+        }
     }
     render() {
         return(
@@ -136,7 +141,12 @@ class OrderBase extends Component {
                                         }) 
                                     }
                                 </Select>
-                            </Field>
+                            </Field> 
+                            { this.state.error &&
+                                <Notification color="danger">
+                                  Por favor, informe seu endereço de entrega.
+                                </Notification>
+                            }
                             </Box>
                         </Columns.Column>
                         <Columns.Column>

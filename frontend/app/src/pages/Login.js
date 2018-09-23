@@ -49,6 +49,7 @@ class LoginBase extends Component {
 					cookie.remove('customerAccessToken');
 				}
 				cookie.set('customerAccessToken', response.data.success);
+				this.props.authUser();
 				this.props.context.redirect('/orders');
 			}
 		})
@@ -103,7 +104,7 @@ class Login extends Component {
                 {(context) => {
                     const {match: {params} } = this.props
                     return (
-                        <LoginBase context={context}/>
+                        <LoginBase context={context} authUser={context.authUser}/>
                     )
                 }}
             </AppContext.Consumer>

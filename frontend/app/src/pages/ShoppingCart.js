@@ -14,9 +14,11 @@ class ShoppingCartBase extends Component {
         this.state = {
             emptyCart: true,
             isLoaded: false,
+            cartUpdate: false,
             cartItems: []
         }
         this.getCartItems = this.getCartItems.bind(this);
+        this.updateCart = this.updateCart.bind(this);
     }
     getCartItems() {
         const cookie = new Cookies();
@@ -24,8 +26,8 @@ class ShoppingCartBase extends Component {
             let cartCookie = cookie.get('cart');
             let cartToken = cartCookie['token'];
             let cartTotalItems = cartCookie['totalItems'];
-            if (parseInt(cartTotalItems) < 1) {
-                this.setState({emptyCart: true, isLoaded: true});
+            if (parseInt(cartTotalItems) > 1) {
+                //this.setState({emptyCart: true, isLoaded: true});
             } else {
                 const endpoint = this.props.context.endpoint + '/api/cart/items/' + cartToken;
                 let token = this.props.context.authToken;
@@ -50,6 +52,16 @@ class ShoppingCartBase extends Component {
     }
     componentDidMount() {
         this.getCartItems();
+
+    }
+    componentDidUpdate() {
+        if (this.state.cartUpdate) {
+            this.getCartItems();
+        }
+    }
+    updateCart() {
+        console.log('update');
+        this.setState({cartUpdate: true})
     }
 	render() {
 		return (
@@ -57,7 +69,7 @@ class ShoppingCartBase extends Component {
 			<Fragment>
 			 {
                 this.state.isLoaded &&
-                this.state.emptyCart === true &&
+                this.state.cartItems.length < 1 &&
                 <Container>
                     <Heading size={2}>Carrinho</Heading>
                     Que pena! Seu carrinho está vazio... =(
@@ -65,7 +77,7 @@ class ShoppingCartBase extends Component {
              }
              {
                 this.state.isLoaded &&
-                this.state.emptyCart === false &&
+                this.state.cartItems.length > 0 &&
                 <Container>
                     <Heading size={2}>Carrinho</Heading>
                         <Table>
@@ -79,11 +91,11 @@ class ShoppingCartBase extends Component {
                             </thead>
                             {this.state.cartItems.map((item, idx) =>{
                                 return (
-                                    <CartItem item={item} key={idx} />
+                                    <CartItem item={item} key={idx} removeItems={this.props.context.removeItems} updateCart={this.updateCart}/>
                                 )
                             })}
                         </Table>
-                        <CartTotal context={this.props.context} items={this.state.cartItems} />
+                        <CartTotal context={this.props.context} items={this.state.cartItems}/>
                 </Container>
              }   
 			</Fragment>

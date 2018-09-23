@@ -7,6 +7,11 @@ class CartItem extends Component {
 		this.state = {
 			item: this.props.item
 		}
+		this.removeItem = this.removeItem.bind(this);
+	}
+	removeItem(item) {
+		this.props.removeItems(item);
+		this.props.updateCart();
 	}
 	render() {
 		return (
@@ -21,7 +26,7 @@ class CartItem extends Component {
 				        fullwidth={false}
 				        color='warning'
 				        rounded={false}
-	                    onClick={() => this.removeItems(this.state.item)}
+	                    onClick={() => this.removeItem(this.state.item)}
 				      >
 				        Remover do carrinho
 				      </Button>

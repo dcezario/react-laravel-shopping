@@ -2,7 +2,11 @@
 
 Acesse o diretório do backend.
 
-Primeiramente, fazemos o build de nossos containers:
+No arquivo docker-compose.yml, insira uma senha para o seu banco de dados:
+
+```MYSQL_ROOT_PASSWORD: sua_senha_do_bd```
+
+Então, fazemos o build de nossos containers:
 
 ```docker-compose up```
 
